@@ -10,7 +10,7 @@ export class UIAbilityCard extends UICard {
         this.parser = parser;
     }
 
-    _create_card_back(content) {
+    _create_card_back() {
         var card = document.createElement("div");
         card.className = "card ability back draw";
 

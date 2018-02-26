@@ -2,6 +2,8 @@
 
 import { document_load } from '/app/utils.js';
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+
 import Progress from '/app/progress.js';
 
 class TurnDetect{
@@ -11,9 +13,9 @@ class TurnDetect{
         this.progress = new Progress((percent, done) => this.show_bar(percent, done), 4000);
         this.turn = 0;
 
-        eventbus.listen("cards_drawn", (a) => !!a.stats && a.is_active , ()=> this.progress.start());
-        eventbus.listen("deck_shuffled", (a) => !!a.stats , ()=> this.progress.restart());
-        eventbus.listen("scenario_loaded", undefined, () => this.reset());
+        eventbus.listen(__.CARDS_DRAWN, (deck) => deck.type === DECK_TYPES.ABILITY && deck.is_active , ()=> this.progress.start());
+        eventbus.listen(__.DECK_SHUFFLED, (deck) => deck.type === DECK_TYPES.ABILITY , ()=> this.progress.restart());
+        eventbus.listen(__.SCENARIO_LOADED, undefined, () => this.reset());
     }
 
     decide_progress(){
@@ -22,7 +24,7 @@ class TurnDetect{
 
     reset(){
         this.turn = 0;
-        eventbus.dispatch("new_turn", this, {turn: this.turn});
+        eventbus.dispatch(__.ROUND_NEW, this, {turn: this.turn});
     }
 
     show_bar(percent, done){
@@ -31,7 +33,7 @@ class TurnDetect{
         if (done){
             this.turn++;
             this.progressbar.style.width = "0%";
-            eventbus.dispatch("new_turn", this, {turn: this.turn});
+            eventbus.dispatch(__.ROUND_NEW, this, {turn: this.turn});
         }
     }
 }

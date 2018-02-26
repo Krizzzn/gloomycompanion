@@ -1,21 +1,25 @@
 'use strict';
 
+import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+
 import { Deck } from '/app/decks/deck.js';
 import { Card } from '/app/decks/card.js';
 import { DECKS, DECK_DEFINITONS } from '/app/data/cards.js'; 
-import { MONSTERS } from '/app/data/monsterstats.js' 
+import { MONSTERS } from '/app/data/monsterstats.js';
 
 export class AbilityDeck extends Deck{
     constructor(deckType, level) {
 
         let deck = DECKS[(deckType.class || deckType.name)];
 
-        super(deck.class, deckType.name);
+        super(DECK_TYPES.ABILITY, deckType.name);
         
         this.cards = [];
+        this.class = deck.class;
         this.level = level + (deckType.level || 0);
         this.level = Math.max(Math.min(7, this.level), 0);
-        this.timeout;
+        this.timeout = undefined;
 
         let monster = MONSTERS[this.name];
         this.stats = monster.levels.find((l) => l.level === level);
@@ -32,7 +36,7 @@ export class AbilityDeck extends Deck{
             this.cards.push(c);
         });
 
-        eventbus.listen("end_round", () => this.shuffle_required && !this.is_active, () => { this.reset_deck().shuffle();});
+        eventbus.listen(__.ROUND_END, () => this.shuffle_required && !this.is_active, () => { this.reset_deck().shuffle();});
     }
 
     draw(draw_count){

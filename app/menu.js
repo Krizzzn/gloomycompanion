@@ -1,6 +1,7 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
 import { document_load } from '/app/utils.js';
 
 import Scenarios from '/app/menu/scenarios.js';
@@ -20,14 +21,14 @@ class Menu {
             cancel:         document.getElementById("cancelarea")       
         };
 
-        eventbus.onclick(this.pages.scenarios.tab, "settings_page", this, this.pages.scenarios);
-        eventbus.onclick(this.pages.deck.tab, "settings_page", this, this.pages.deck);
-        eventbus.onclick(this.buttons.settings, "settings_pane", this, {show: true});
-        eventbus.onclick(this.buttons.cancel, "settings_pane", this, {show: false});
+        eventbus.onclick(this.pages.scenarios.tab, __.SETTINGS_PAGE, this, this.pages.scenarios);
+        eventbus.onclick(this.pages.deck.tab, __.SETTINGS_PAGE, this, this.pages.deck);
+        eventbus.onclick(this.buttons.settings, __.SETTINGS_PANE, this, {show: true});
+        eventbus.onclick(this.buttons.cancel, __.SETTINGS_PANE, this, {show: false});
 
-        eventbus.listen("settings_page", this, (p) => this.show_tab(p));
-        eventbus.listen("settings_pane", this, (p) => this.show_settingspane(p));
-        eventbus.listen("scenario_loaded", undefined, () => this.show_settingspane({show: false}));
+        eventbus.listen(__.SETTINGS_PAGE, this, (p) => this.show_tab(p));
+        eventbus.listen(__.SETTINGS_PANE, this, (p) => this.show_settingspane(p));
+        eventbus.listen(__.SCENARIO_LOADED, undefined, () => this.show_settingspane({show: false}));
 
         new Scenarios();
         new Decklist();

@@ -1,9 +1,11 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
+
 import { CAMPAIGNS } from '/app/data/scenarios.js';
-import ScenarioSelector from '/app/renderers/scenarioselector.js'
-import LevelSelector from '/app/renderers/levelselector.js'
+import ScenarioSelector from '/app/renderers/scenarioselector.js';
+import LevelSelector from '/app/renderers/levelselector.js';
 
 export class Scenarios {
 	constructor(){
@@ -14,8 +16,8 @@ export class Scenarios {
 			campaigns: document.getElementById('campaigns')
 		};
 
-		eventbus.listen("menu_level", undefined, (a) => this.selected_scenario.level = a.level);
-		eventbus.listen("menu_scenario", undefined, (a) => this.load_scenario(a));
+		eventbus.listen(__.MENU_LEVEL, undefined, (a) => this.selected_scenario.level = a.level);
+		eventbus.listen(__.MENU_SCENARIO, undefined, (a) => this.load_scenario(a));
 
 		let levelselector = new LevelSelector(this.form.level);
 		levelselector.render();
@@ -33,7 +35,7 @@ export class Scenarios {
 		if (!this.selected_scenario.scenario) return;
 		if (!this.selected_scenario.level) return;
 		
-		eventbus.dispatch("load_scenario", this, this.selected_scenario); 
+		eventbus.dispatch(__.SCENARIO_LOAD, this, this.selected_scenario); 
 	}
 }
 

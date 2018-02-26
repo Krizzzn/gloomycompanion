@@ -1,3 +1,4 @@
+'use strict';
 
 class TinyCentralDispatch {
 
@@ -11,6 +12,11 @@ class TinyCentralDispatch {
         this.listen("default", undefined, console.log);
     }
 
+    // subscribe to events
+    //  event:                  name of event
+    //  predicate_or_source:    filter events by providing a predicate or the expected source object (triggered 
+    //                          if expected source object matches the given source object)
+    //  callback:               called when event is registered
     listen(event, predicate_or_source, callback){
         this.subscribers[event] = this.subscribers[event] || [];
 
@@ -24,6 +30,10 @@ class TinyCentralDispatch {
         this.subscribers[event].push(event_settings);
     }
 
+    // dispatch an event
+    //  events:         array of events or single event that shall be invoked
+    //  invoked_by:     object that triggers the event (see: listen:predicate_or_source)
+    //  parameters:     parameters that get passed to the callback function 
     dispatch(events, invoked_by, parameters){
         parameters = parameters || {};
         events = [].concat(...[events]);
@@ -31,7 +41,7 @@ class TinyCentralDispatch {
         events.forEach((event) => {
 
             if (!this.subscribers[event]){
-                parameters["_event"] = event;
+                parameters._event = event;
                 return this.dispatch("default", invoked_by, parameters);
             }
 
@@ -48,6 +58,11 @@ class TinyCentralDispatch {
         });
     }
 
+    // clicking a dom_element raises an event
+    //  dom_element:        DOM element that shall react on click
+    //  event:              name of the event invoked
+    //  invoked_by:         object that triggers the event (see: listen:predicate_or_source)
+    //  parameters:     parameters that get passed to the callback function 
     onclick(dom_element, event, invoked_by, parameters){
         if (!event) return;
 
@@ -55,7 +70,6 @@ class TinyCentralDispatch {
             this.dispatch(event, invoked_by, parameters);
         });
     }
-
 }
 
 let eventbus = new TinyCentralDispatch();

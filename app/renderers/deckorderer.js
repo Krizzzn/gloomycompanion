@@ -1,6 +1,7 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
 
 export class DeckOrderer{
 
@@ -9,7 +10,7 @@ export class DeckOrderer{
         this.container = container;
         this.previous_order = [];
 
-        eventbus.listen("order_decks", undefined, (param) => this.order_decks(param));
+        eventbus.listen(__.DECKS_ORDER, undefined, (param) => this.order_decks(param));
     }
 
     matches_previous_order(decks){
@@ -35,7 +36,7 @@ export class DeckOrderer{
             var subject = this.decks.find((d) => d.deck === deck );
             if (!subject) return;
             var move = subject.renderer.container;
-            this.container.appendChild(move, last_position)
+            this.container.appendChild(move, last_position);
             last_position = move;
             this.previous_order.push(subject.deck);
         });

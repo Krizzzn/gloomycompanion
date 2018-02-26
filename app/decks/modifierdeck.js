@@ -1,9 +1,10 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+
 import { Deck } from '/app/decks/deck.js';
 import { Card } from '/app/decks/card.js';
-import { DECK_TYPES } from '/app/constants.js';
 import { MODIFIER_DECK, MODIFIER_CARDS, CARD_TYPES_MODIFIER } from '/app/data/modifiercards.js';
 
 export class ModifierDeck extends Deck {
@@ -16,9 +17,9 @@ export class ModifierDeck extends Deck {
     		this.cards.push(c);
     	});
 
-        eventbus.listen("add_modifier", this, (e) => this.add(e.type));
-        eventbus.listen("remove_modifier", this, (e) => this.remove(e.type));
-        eventbus.listen("end_round", () => this.shuffle_required, () => { this.reset_deck().shuffle();});
+        eventbus.listen(__.MODIFIER_CARD_ADD, this, (e) => this.add(e.type));
+        eventbus.listen(__.MODIFIER_CARD_REMOVE, this, (e) => this.remove(e.type));
+        eventbus.listen(__.ROUND_END, () => this.shuffle_required, () => { this.reset_deck().shuffle();});
     }
 
     count(card_type){
@@ -43,7 +44,7 @@ export class ModifierDeck extends Deck {
 
     	this.cards.push(c);
 
-        eventbus.dispatch(["modifier_deck_changed", "modifier_card_added"], this, {"card": c, "bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
+        eventbus.dispatch([__.MODIFIER_DECK_CHANGED, __.MODIFIER_CARD_ADDED], this, {"card": c, "bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
 
     	this.shuffle_without_reset();
 		return this.count(c.type);
@@ -56,7 +57,7 @@ export class ModifierDeck extends Deck {
         let removed = drawn.find((card) => special.includes(card.type));
 
         if (removed)
-            eventbus.dispatch("modifier_deck_changed", this, {"bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
+            eventbus.dispatch(__.MODIFIER_DECK_CHANGED, this, {"bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
 
         return drawn;
     }
@@ -75,7 +76,7 @@ export class ModifierDeck extends Deck {
         if (!removed_card)
             return 0;
 
-        eventbus.dispatch(["modifier_deck_changed", "modifier_card_removed"], this, {"card": removed_card, "bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
+        eventbus.dispatch([__.MODIFIER_DECK_CHANGED, __.MODIFIER_CARD_REMOVED], this, {"card": removed_card, "bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
         this.shuffle_without_reset();    
 		
         return this.count(card_type);
@@ -93,7 +94,7 @@ export class ModifierDeck extends Deck {
         let removed = this.discard.filter((card) => special.includes(card.type));
     	this.discard = this.discard.filter((card) => !special.includes(card.type));
 
-        removed.forEach((c) => eventbus.dispatch(["modifier_deck_changed", "modifier_card_removed"], this, {"card": c, "bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this }) );
+        removed.forEach((c) => eventbus.dispatch([__.MODIFIER_DECK_CHANGED, __.MODIFIER_CARD_REMOVED], this, {"card": c, "bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this }) );
 
     	return super.reset_deck();
     }

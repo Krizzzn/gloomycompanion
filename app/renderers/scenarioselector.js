@@ -1,6 +1,8 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
+
 import { setup_textbox } from '/app/utils.js';
 
 export class ScenarioSelector {
@@ -9,14 +11,14 @@ export class ScenarioSelector {
         this.name = name;
         this.scenarios = scenarios;
         this.container = container;
-        this.selected_scenario;
+        this.selected_scenario = undefined;
 
-        this.shoud_display_scenario_box = scenarios[0].name.match(/^\#?\d/);
+        this.should_display_scenario_box = scenarios[0].name.match(/^\#?\d/);
     } 
 
     render(){
         let header = document.createElement("li");
-        header.classList.add("head")
+        header.classList.add("head");
         header.textContent = this.name;
 
         this.container.appendChild(header);
@@ -24,7 +26,7 @@ export class ScenarioSelector {
         this.scenario_number = this.create_scenario_number(this.container);
         this.button = this.create_button(this.container);
 
-        this.selectbox.addEventListener("change", () => this.read_settings());60
+        this.selectbox.addEventListener("change", () => this.read_settings());
     }
 
     create_selectbox(container){
@@ -48,7 +50,7 @@ export class ScenarioSelector {
     }
 
     create_scenario_number(container){
-        if (!this.shoud_display_scenario_box)
+        if (!this.should_display_scenario_box)
             return document.createElement("span");
 
         let scenario_listitem = document.createElement("li");
@@ -80,7 +82,7 @@ export class ScenarioSelector {
     }
 
     apply(){
-        eventbus.dispatch("menu_scenario", this, {  campaign: this.name, scenario:this.selected_scenario })
+        eventbus.dispatch(__.MENU_SCENARIO, this, {  campaign: this.name, scenario:this.selected_scenario });
     }
 
     read_settings(){

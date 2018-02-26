@@ -6,15 +6,15 @@ export class Progress{
         this.callback = callback || (() => {});
         this.timeout = timeout || 1000;
 
-        this.startTime;
-        this.requestID;
+        this.startTime = undefined;
+        this.requestID = undefined;
     }
 
     start(){
         this.stop();
         this.requestID = window.requestAnimationFrame((timestamp) => {
-            this.starttime = timestamp || new Date().getTime()
-            this.tick(timestamp)
+            this.starttime = timestamp || new Date().getTime();
+            this.tick(timestamp);
         });
     }
 
@@ -31,17 +31,17 @@ export class Progress{
 
     tick(timestamp){
 
-        var timestamp = timestamp || new Date().getTime();
+        timestamp = timestamp || new Date().getTime();
         var runtime = timestamp - this.starttime;
         var progress = runtime / this.timeout;
 
-        progress = Math.min(progress, 1)
+        progress = Math.min(progress, 1);
 
         this.callback(progress);
 
         if (runtime < this.timeout){ 
             this.requestID = window.requestAnimationFrame((timestamp) => {
-                this.tick(timestamp, this.timeout)
+                this.tick(timestamp, this.timeout);
             });
         }
         else{

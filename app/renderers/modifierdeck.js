@@ -2,20 +2,22 @@
 
 import { UICard } from '/app/renderers/card.js';
 import { DeckRenderer } from '/app/renderers/deck.js';
-import eventbus from '/app/tinycentraldispatch.js'
+
+import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
 
 export class ModifierDeckRenderer extends DeckRenderer {
     constructor(deck, container){
-        super(deck, container)
+        super(deck, container);
     }
-    render(){
 
+    render(){
         this.uiCards = this.deck.cards.map((c) => new UICard(c).init());
 
-        eventbus.listen("modifier_card_added", this.deck, (e) => this.onadd(e.card));
-        eventbus.listen("modifier_card_removed", this.deck, (e) => this.onremove(e.card));
+        eventbus.listen(__.MODIFIER_CARD_ADDED, this.deck, (e) => this.onadd(e.card));
+        eventbus.listen(__.MODIFIER_CARD_REMOVED, this.deck, (e) => this.onremove(e.card));
 
-        return super.render()
+        return super.render();
     }
 
     onadd(card) {

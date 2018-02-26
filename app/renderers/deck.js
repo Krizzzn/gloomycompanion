@@ -1,7 +1,7 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js'
-import { UICard } from '/app/renderers/card.js';
+import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
 
 export class DeckRenderer{
     constructor(deck, container){
@@ -17,9 +17,9 @@ export class DeckRenderer{
             c.attach(this.container);
         });
 
-        eventbus.onclick(this.container, 'draw_cards', this.deck, {cards: 1});
-        eventbus.listen('cards_drawn', this.deck, (p) => this.ondrawn(p.cards) );
-        eventbus.listen('deck_shuffled', this.deck, (p) => this.onshuffled(p.deck) );
+        eventbus.onclick(this.container, __.CARDS_DRAW, this.deck, {cards: 1});
+        eventbus.listen(__.CARDS_DRAWN, this.deck, (p) => this.ondrawn(p.cards) );
+        eventbus.listen(__.DECK_SHUFFLED, this.deck, (p) => this.onshuffled(p.deck) );
 
         return this.uiCards;
     }
@@ -37,7 +37,7 @@ export class DeckRenderer{
     }
 
     ondrawn(cards) {
-        this.uiCards.forEach((c, i) => {
+        this.uiCards.forEach((c) => {
             c.push_down();
             c.removeClass("pull");
         });
@@ -53,7 +53,7 @@ export class DeckRenderer{
 
     onshuffled(deck){
 
-        if (!!deck.stats || deck.discard.length == 0)
+        if (deck.type === DECK_TYPES.ABILITY || deck.discard.length === 0)
             this.remove_drawn();
         
         let uiCards = this.get_uicards_from_pile(deck);

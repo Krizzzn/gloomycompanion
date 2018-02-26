@@ -1,6 +1,7 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
 
 export class Deck {
     constructor(type, name) {
@@ -13,8 +14,8 @@ export class Deck {
         this.cards = [];
         this.discard = [];
 
-        eventbus.listen("draw_cards", this, (p) => this.draw(p.cards));
-        eventbus.listen("deck_shuffle", this, () => { this.shuffle_required = true; this.reset_deck().shuffle();});
+        eventbus.listen(__.CARDS_DRAW, this, (p) => this.draw(p.cards));
+        eventbus.listen(__.DECK_SHUFFLE, this, () => { this.shuffle_required = true; this.reset_deck().shuffle();});
     }
     shuffle(){
         var array = this.cards;
@@ -33,7 +34,7 @@ export class Deck {
         }
         
         this.cards = array;
-        eventbus.dispatch("deck_shuffled", this, {deck: this});
+        eventbus.dispatch(__.DECK_SHUFFLED, this, {deck: this});
         this.shuffle_required = false;
         return this;
     }
@@ -50,11 +51,11 @@ export class Deck {
             
             this.shuffle_required = card.shuffle_next_round || this.shuffle_required;
             if (card.shuffle_next_round)
-                eventbus.dispatch("shuffle_required", this, {deck: this});
+                eventbus.dispatch(__.SHUFFLE_REQUIRED, this, {deck: this});
         } while (draw_count-- > 1);
 
         drawn.forEach((c) => this.discard.push(c));
-        eventbus.dispatch("cards_drawn", this, {cards: drawn, deck: this});
+        eventbus.dispatch(__.CARDS_DRAWN, this, {cards: drawn, deck: this});
         return drawn;
     }
     reset_deck(){

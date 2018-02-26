@@ -73,7 +73,7 @@ export class UICard {
     draw(){
         this.removeClass('shuffle');
         this.set_depth(0);
-        this.addClass('pull')
+        this.addClass('pull');
 
         this.flip_up(true);
         this.removeClass("draw");
@@ -88,7 +88,7 @@ export class UICard {
         this.removeClass('pull');
         this.flip_up(false);
         this.removeClass('discard');
-        this.addClass('draw')
+        this.addClass('draw');
     }
 
     shuffle(){

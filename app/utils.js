@@ -1,3 +1,4 @@
+'use strict';
 
 function document_load(callback){
 	document.addEventListener('DOMContentLoaded', callback);

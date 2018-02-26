@@ -1,6 +1,7 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
 import { DECKS } from '/app/data/cards.js';
 
 export class Decklist {
@@ -35,9 +36,9 @@ export class Decklist {
         this.register_events(this.deck_add.selection);
         this.deck_add.level.addEventListener("focus", () => this.deck_add.level.select());
 
-        eventbus.onclick(this.deck_add.apply, "load_deck", this, this.additional_deck);
-        eventbus.listen("scenario_loaded", undefined, (a) => this.set_level_to_scenario(a));
-        eventbus.listen("deck_loaded", (deck) => !!deck.stats, (a) => this.add_active_deck(a));
+        eventbus.onclick(this.deck_add.apply, __.DECK_LOAD, this, this.additional_deck);
+        eventbus.listen(__.SCENARIO_LOADED, undefined, (a) => this.set_level_to_scenario(a));
+        eventbus.listen(__.DECK_LOADED, (deck) => deck.type === DECK_TYPES.ABILITY, (a) => this.add_active_deck(a));
     }
 
     register_events(element){
@@ -76,16 +77,16 @@ export class Decklist {
         let shuffle = document.createElement("img");
         shuffle.src = "images/shuffle-black.svg";
         deck.appendChild(shuffle);
-        eventbus.onclick(shuffle, "deck_shuffle", a.deck, {deck: a.deck});
+        eventbus.onclick(shuffle, __.DECK_SHUFFLE, a.deck, {deck: a.deck});
 
         let remove = document.createElement("img");
         remove.src = "images/remove.svg";
         deck.appendChild(remove);
-        eventbus.onclick(remove, "deck_remove", a.deck, {deck: a.deck});
+        eventbus.onclick(remove, __.DECK_REMOVE, a.deck, {deck: a.deck});
 
         this.active_decks.container.appendChild(deck);
 
-        eventbus.listen("deck_removed", a.deck, () => deck.remove());
+        eventbus.listen(__.DECK_REMOVED, a.deck, () => deck.remove());
     }
 }
 

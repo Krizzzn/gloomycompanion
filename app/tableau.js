@@ -3,6 +3,7 @@
 import { document_load } from '/app/utils.js';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
 
 import { ModifierDeck } from '/app/decks/modifierdeck.js';
 import { AbilityDeck } from '/app/decks/abilitydeck.js';
@@ -12,26 +13,26 @@ import { DeckOrderer } from '/app/renderers/deckorderer.js';
 
 class Tableau {
 	constructor(container){
-		this.modifier_deck_renderer;
+		this.modifier_deck_renderer = undefined;
 
 		this.container = container;
 
 		this.ability_decks = [];
 		this.modifier_deck = undefined;
 
-		eventbus.listen("load_scenario", undefined, (p) => this.load_scenario(p));
-		eventbus.listen("load_scenario", undefined, (p) => this.set_scenario_name(p));
+		eventbus.listen(__.SCENARIO_LOAD, undefined, (p) => this.load_scenario(p));
+		eventbus.listen(__.SCENARIO_LOAD, undefined, (p) => this.set_scenario_name(p));
 		
-		eventbus.listen("load_deck", undefined, (p) => this.load_deck(p));
-		eventbus.listen("deck_remove", undefined, (p) => this.remove_deck(p.deck))
+		eventbus.listen(__.DECK_LOAD, undefined, (p) => this.load_deck(p));
+		eventbus.listen(__.DECK_REMOVE, undefined, (p) => this.remove_deck(p.deck));
 
 		this.deckorderer = new DeckOrderer(this.ability_decks, this.container );
 	}
 
 	activate_verbose(){
-		eventbus.listen("cards_drawn", undefined, (c) => console.log(c.deck.name + ' - cards left:',  c.deck.cards.length) );
-		eventbus.listen("modifier_deck_changed", undefined, console.log );
-		eventbus.listen("deck_shuffled", undefined, console.log );
+		eventbus.listen(__.CARDS_DRAWN, undefined, (c) => console.log(c.deck.name + ' - cards left:',  c.deck.cards.length) );
+		eventbus.listen(__.MODIFIER_DECK_CHANGED, undefined, console.log );
+		eventbus.listen(__.DECK_SHUFFLED, undefined, console.log );
 
 		window.eventbus = eventbus;
 		return this;
@@ -54,7 +55,7 @@ class Tableau {
 	 	this.modifier_deck_renderer = new ModifierDeckContainer(this.modifier_deck, modifier_container);
 	 	this.modifier_deck_renderer.render();
 
-	 	eventbus.dispatch("deck_loaded", this.modifier_deck, {deck: this.modifier_deck});
+	 	eventbus.dispatch(__.DECK_LOADED, this.modifier_deck, {deck: this.modifier_deck});
 	}
 
 	create_ability_decks(decks, level){
@@ -72,7 +73,7 @@ class Tableau {
 		 	let container = this.create_deck_container();
 			tuple.renderer = new AbilityDeckRenderer(tuple.deck, container);
 	 		tuple.renderer.render();
-	 		eventbus.dispatch("deck_loaded", tuple.deck, {deck: tuple.deck});
+	 		eventbus.dispatch(__.DECK_LOADED, tuple.deck, {deck: tuple.deck});
 	 	});
 	}
 
@@ -84,7 +85,7 @@ class Tableau {
 			return;
 		deck.renderer.remove();
 		this.ability_decks = this.ability_decks.filter(a => a.deck !== removed_deck);
-		eventbus.dispatch("deck_removed", removed_deck, {deck: removed_deck});
+		eventbus.dispatch(__.DECK_REMOVED, removed_deck, {deck: removed_deck});
 	}
 
 	clear_container(){
@@ -102,13 +103,13 @@ class Tableau {
 		this.create_modifier_deck();
 		this.create_ability_decks(load.scenario.decks, load.level);
 		this.render_ability_decks();
-		eventbus.dispatch("scenario_loaded", this, load);
+		eventbus.dispatch(__.SCENARIO_LOADED, this, load);
 	}
 
 	load_deck(deck){
 		if (!this.modifier_deck)
 			this.create_modifier_deck();
-		this.create_ability_decks([deck.deck], deck.level)
+		this.create_ability_decks([deck.deck], deck.level);
 		this.render_ability_decks();
 	}
 

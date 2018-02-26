@@ -1,6 +1,8 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js'
+import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
+
 import ModifierDeckRenderer from '/app/renderers/modifierdeck.js';
 import { toggle_class } from '/app/utils.js'; 
 
@@ -15,8 +17,8 @@ export class ModifierDeckContainer {
         let button_div = document.createElement("div");
         button_div.className = "modifier-deck-column-1";
 
-        button_div.appendChild(this.create_counter_widget("bless", "remove_modifier", "add_modifier"));
-        button_div.appendChild(this.create_counter_widget("curse", "remove_modifier", "add_modifier"));
+        button_div.appendChild(this.create_counter_widget("bless", __.MODIFIER_CARD_REMOVE, __.MODIFIER_CARD_ADD));
+        button_div.appendChild(this.create_counter_widget("curse", __.MODIFIER_CARD_REMOVE, __.MODIFIER_CARD_ADD));
         button_div.appendChild(this.create_counter_widget("round"));
 
         let end_round_div = document.createElement("div");
@@ -39,11 +41,11 @@ export class ModifierDeckContainer {
         this.container.appendChild(deck_column);
         this.container.appendChild(button_div);
         
-        eventbus.onclick(draw_two_button, 'draw_cards', this.deck, {cards: 2});
-        eventbus.onclick(end_round_div, 'end_round', this.deck);
+        eventbus.onclick(draw_two_button, __.CARDS_DRAW, this.deck, {cards: 2});
+        eventbus.onclick(end_round_div, __.ROUND_END, this.deck);
 
-        eventbus.listen('shuffle_required', this.deck, () => toggle_class(end_round_div, "not-required", false));
-        eventbus.listen('deck_shuffled', this.deck, () => toggle_class(end_round_div, "not-required", true));
+        eventbus.listen(__.SHUFFLE_REQUIRED, this.deck, () => toggle_class(end_round_div, "not-required", false));
+        eventbus.listen(__.DECK_SHUFFLED, this.deck, () => toggle_class(end_round_div, "not-required", true));
 
         let renderer = new ModifierDeckRenderer(this.deck, this.deck_space);
         renderer.render();
@@ -71,13 +73,13 @@ export class ModifierDeckContainer {
             widget_container.appendChild(this.create_button(card_type, "increment", "+", decrement_event, text_element));
 
         if (card_type === "round")
-            eventbus.listen("new_turn", undefined, (e) => { text_element.textContent = e.turn || 0; });
+            eventbus.listen(__.ROUND_NEW, undefined, (e) => { text_element.textContent = e.turn || 0; });
         else
-            eventbus.listen("modifier_deck_changed", this.deck, (e) => { if (e[card_type] !== undefined) text_element.textContent = e[card_type]; });
+            eventbus.listen(__.MODIFIER_DECK_CHANGED, this.deck, (e) => { if (e[card_type] !== undefined) text_element.textContent = e[card_type]; });
 
         return widget_container;
     }
-    create_button(card_type, class_name, text, event_name, text_element) {
+    create_button(card_type, class_name, text, event_name) {
         var button = document.createElement("div");
         button.className = class_name + " button";
         button.textContent = text;

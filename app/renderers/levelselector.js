@@ -1,6 +1,8 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
+import { EVENTS as __ } from '/app/constants.js';
+
 import { toggle_class, setup_textbox } from '/app/utils.js';
 
 export class LevelSelector {
@@ -20,7 +22,7 @@ export class LevelSelector {
 
     render(){
         let header = document.createElement("li");
-        header.classList.add("head")
+        header.classList.add("head");
         header.textContent = "Scenario Level";
 
         let levelbox = this.create_level_box();
@@ -42,12 +44,12 @@ export class LevelSelector {
 
         this.form.level = document.createElement("input");
 
-        let param = { min: 7, min: 0, type: "number",
+        let param = { max: 7, min: 0, type: "number",
                       callback: () => {
                         var level = parseInt(this.form.level.value);
                         if (isNaN(level))
                             level = 1;
-                        this.level = Math.max(Math.min(level, 7),0);;
+                        this.level = Math.max(Math.min(level, 7),0);
                         this.update();
         } };
         setup_textbox(this.form.level, param);
@@ -65,7 +67,7 @@ export class LevelSelector {
 
         this.form.level_sum = document.createElement("input");
 
-        let param = { min: 7*6, min: 1, type: "number",
+        let param = { max: 7*6, min: 1, type: "number",
                       callback: () => {
                         this.level_sum = parseInt(this.form.level_sum.value);
                         this.calculate_level();
@@ -109,7 +111,7 @@ export class LevelSelector {
     update(){
         this.form.level_sum.value = this.level_sum;
         this.form.level.value = this.level;
-        eventbus.dispatch("menu_level", this, {level: this.level});
+        eventbus.dispatch(__.MENU_LEVEL, this, {level: this.level});
     }
 }
 
