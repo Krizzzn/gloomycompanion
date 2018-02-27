@@ -73,7 +73,7 @@ class Tableau {
 		 	let container = this.create_deck_container();
 			tuple.renderer = new AbilityDeckRenderer(tuple.deck, container);
 	 		tuple.renderer.render();
-	 		eventbus.dispatch(__.DECK_LOADED, tuple.deck, {deck: tuple.deck});
+	 		eventbus.dispatch(__.DECK_LOADED, tuple.deck, tuple);
 	 	});
 	}
 

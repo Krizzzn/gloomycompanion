@@ -1,16 +1,17 @@
 'use strict';
 
 import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import { EVENTS as __ , DECK_TYPES} from '/app/constants.js';
 
 export class DeckOrderer{
 
     constructor(deck_containers, container){
-        this.decks = deck_containers;
+        this.decks = [];
         this.container = container;
         this.previous_order = [];
 
         eventbus.listen(__.DECKS_ORDER, undefined, (param) => this.order_decks(param));
+        eventbus.listen(__.DECK_LOADED, (deck) => deck.type === DECK_TYPES.ABILITY, (param) => this.decks.push(param));
     }
 
     matches_previous_order(decks){

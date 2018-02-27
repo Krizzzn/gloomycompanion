@@ -11,6 +11,7 @@ class DetectUnusedDecks{
         eventbus.listen(__.ROUND_NEW, undefined, (turn) => this.detect_unused(turn));
         eventbus.listen(__.CARDS_DRAWN, (deck) => deck.type === DECK_TYPES.ABILITY , (e) => this.save_deck(e));
         eventbus.listen(__.DECK_LOADED, (deck) => deck.type === DECK_TYPES.ABILITY , (e) => this.available_decks.push(e.deck));
+        eventbus.listen(__.DECK_REMOVED, (deck) => deck.type === DECK_TYPES.ABILITY , (e) => this.remove_deck_from_available(e.deck));
     }
 
     detect_unused(turn){
@@ -39,6 +40,10 @@ class DetectUnusedDecks{
             eventbus.dispatch(__.DECKS_USAGE, undefined, {decks: [e.deck]});
         }
         this.decks_drawn.push(e.deck);
+    }
+
+    remove_deck_from_available(e){
+        this.available_decks = this.available_decks.filter((d) => d !== e);
     }
 }
 
