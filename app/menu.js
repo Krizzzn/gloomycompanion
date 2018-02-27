@@ -2,10 +2,11 @@
 
 import eventbus from '/app/tinycentraldispatch.js';
 import { EVENTS as __ } from '/app/constants.js';
-import { document_load } from '/app/utils.js';
+import { document_load, toggle_class } from '/app/utils.js';
 
 import Scenarios from '/app/menu/scenarios.js';
 import Decklist from '/app/menu/decklist.js';
+import Rewards from '/app/menu/rewards.js';
 
 class Menu {
     constructor(){
@@ -32,6 +33,7 @@ class Menu {
 
         new Scenarios();
         new Decklist();
+        new Rewards();
     }
 
     show_tab(param){
@@ -44,7 +46,11 @@ class Menu {
 
     show_settingspane(p)
     {
-        this.menu.className = p.show ? "pane" : "pane inactive";
+        let panes = document.getElementsByClassName("pane");
+        Array.from(panes).forEach((pane) => {
+            toggle_class(pane, 'inactive', !p.show);
+        });
+
         this.buttons.cancel.style.display = p.show ? "initial" : "none";
     }
 
