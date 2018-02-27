@@ -3,60 +3,61 @@
 const SCENARIO_LEVELS = {
   0: {
     "Level": 0,
-    "Monster Level": 0,
-    "Gold Conversion": 2,
-    "Trap Damage": 2,
+    "MonsterLevel": 0,
+    "GoldConversion": 2,
+    "TrapDamage": 2,
     "XP": 4
   },
   1: {
     "Level": 1,
-    "Monster Level": 1,
-    "Gold Conversion": 2,
-    "Trap Damage": 3,
+    "MonsterLevel": 1,
+    "GoldConversion": 2,
+    "TrapDamage": 3,
     "XP": 6
   },
   2: {
     "Level": 2,
-    "Monster Level": 2,
-    "Gold Conversion": 3,
-    "Trap Damage": 4,
+    "MonsterLevel": 2,
+    "GoldConversion": 3,
+    "TrapDamage": 4,
     "XP": 8
   },
   3: {
     "Level": 3,
-    "Monster Level": 3,
-    "Gold Conversion": 3,
-    "Trap Damage": 5,
+    "MonsterLevel": 3,
+    "GoldConversion": 3,
+    "TrapDamage": 5,
     "XP": 10
   },
   4: {
     "Level": 4,
-    "Monster Level": 4,
-    "Gold Conversion": 4,
-    "Trap Damage": 6,
+    "MonsterLevel": 4,
+    "GoldConversion": 4,
+    "TrapDamage": 6,
     "XP": 12
   },
   5: {
     "Level": 5,
-    "Monster Level": 5,
-    "Gold Conversion": 4,
-    "Trap Damage": 7,
+    "MonsterLevel": 5,
+    "GoldConversion": 4,
+    "TrapDamage": 7,
     "XP": 14
   },
   6: {
     "Level": 6,
-    "Monster Level": 6,
-    "Gold Conversion": 5,
-    "Trap Damage": 8,
+    "MonsterLevel": 6,
+    "GoldConversion": 5,
+    "TrapDamage": 8,
     "XP": 16
   },
   7: {
     "Level": 7,
-    "Monster Level": 7,
-    "Gold Conversion": 6,
-    "Trap Damage": 9,
+    "MonsterLevel": 7,
+    "GoldConversion": 6,
+    "TrapDamage": 9,
     "XP": 18
   }
 };
 
 export { SCENARIO_LEVELS };
+export default SCENARIO_LEVELS;
