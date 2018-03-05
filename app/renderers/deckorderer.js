@@ -41,6 +41,8 @@ export class DeckOrderer{
             last_position = move;
             this.previous_order.push(subject.deck);
         });
+
+        eventbus.dispatch(__.DECKS_ORDERED, this, param);
     }
 }
 

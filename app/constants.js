@@ -15,6 +15,7 @@ const EVENTS = {
     DECK_SHUFFLE: 'deck_shuffle',
     DECK_SHUFFLED: 'deck_shuffled',
     DECKS_ORDER: 'decks_order',
+    DECKS_ORDERED: 'decks_ordered',
     DECKS_USAGE: 'decks_usage',
     MENU_LEVEL: 'menu_level',
     MENU_SCENARIO: 'menu_scenario',
@@ -27,6 +28,7 @@ const EVENTS = {
     ROUND_NEW: 'round_new',
     SCENARIO_LOAD: 'scenario_load',
     SCENARIO_LOADED: 'scenario_loaded',
+    SCROLL: 'scroll',
     SETTINGS_PAGE: 'settings_page',
     SETTINGS_PANE: 'settings_pane',
     SHUFFLE_REQUIRED: 'shuffle_required' 
