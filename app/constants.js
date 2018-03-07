@@ -14,6 +14,7 @@ const EVENTS = {
     DECK_REMOVED: 'deck_removed',
     DECK_SHUFFLE: 'deck_shuffle',
     DECK_SHUFFLED: 'deck_shuffled',
+    DECK_STATE: 'deck_state',
     DECKS_ORDER: 'decks_order',
     DECKS_ORDERED: 'decks_ordered',
     DECKS_USAGE: 'decks_usage',

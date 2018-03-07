@@ -69,9 +69,6 @@ export class Deck {
         }
         return this;
     }
-    render(){
-        return false;
-    }
 }
 
 export default Deck;

@@ -15,7 +15,6 @@ export class AbilityDeck extends Deck{
 
         super(DECK_TYPES.ABILITY, deckType.name);
         
-        this.cards = [];
         this.class = deck.class;
         this.level = level + (deckType.level || 0);
         this.level = Math.max(Math.min(7, this.level), 0);

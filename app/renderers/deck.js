@@ -20,6 +20,7 @@ export class DeckRenderer{
         eventbus.onclick(this.container, __.CARDS_DRAW, this.deck, {cards: 1});
         eventbus.listen(__.CARDS_DRAWN, this.deck, (p) => this.ondrawn(p.cards) );
         eventbus.listen(__.DECK_SHUFFLED, this.deck, (p) => this.onshuffled(p.deck) );
+        eventbus.listen(__.DECK_STATE, this.deck, (p) => this.load_state(p) );
 
         return this.uiCards;
     }
@@ -49,6 +50,23 @@ export class DeckRenderer{
             uiCard.split(i, cards.length);
             uiCard.draw();
         }); 
+    }
+
+    load_state(p){
+
+        var drawCount = p.cards;
+        var cards = [];
+
+        while (drawCount > 0){
+
+            let card = this.deck.discard[this.deck.discard.length - drawCount];
+            cards.push(card);
+            drawCount--;
+        }
+
+        if (p.cards === 0)
+            this.remove_drawn();
+        this.ondrawn(cards);
     }
 
     onshuffled(deck){
