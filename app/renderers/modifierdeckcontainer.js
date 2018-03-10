@@ -35,14 +35,20 @@ export class ModifierDeckContainer {
         let draw_two_button = document.createElement("div");
         draw_two_button.className = "button draw-two";
 
+        let undo_button = document.createElement("div");
+        undo_button.className = "button undo";
+
         deck_column.appendChild(this.deck_space);
         deck_column.appendChild(draw_two_button);
+        deck_column.appendChild(undo_button);
 
         this.container.appendChild(deck_column);
         this.container.appendChild(button_div);
         
         eventbus.onclick(draw_two_button, __.CARDS_DRAW, this.deck, {cards: 2});
         eventbus.onclick(end_round_div, __.ROUND_END, this.deck);
+        eventbus.onclick(undo_button, __.UNDO_LAST_MOVE, undefined);
+
 
         eventbus.listen(__.SHUFFLE_REQUIRED, this.deck, () => toggle_class(end_round_div, "not-required", false));
         eventbus.listen(__.DECK_SHUFFLED, this.deck, () => toggle_class(end_round_div, "not-required", true));

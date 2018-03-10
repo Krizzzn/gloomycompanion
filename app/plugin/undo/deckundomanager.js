@@ -16,6 +16,7 @@ export class DeckUndoManager{
 
         eventbus.listen(__.DECK_SHUFFLED, undefined, param => this.store_state(param.deck, new DeckState(param.deck)));        
         eventbus.listen(__.CARDS_DRAWN, undefined, param => this.store_state(param.deck, new DeckState(param.deck, param.cards.length)));
+        eventbus.listen(__.UNDO_LAST_MOVE, undefined, () => this.undo());
     }
 
     store_state(deck, state){

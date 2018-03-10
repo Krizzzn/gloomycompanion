@@ -206,6 +206,20 @@
     cursor:                     pointer;
 }
 
+.undo.button
+{
+    position:                   absolute;
+    right:                      5%;
+    bottom:                     7%;
+    width:                      16%;
+    height:                     16%;
+    background-repeat:          no-repeat;
+    background-position:        100% 50%;
+    background-size:            contain;
+    background-image:           url(/images/undo.svg);
+    cursor:                     pointer;
+}
+
 .card-container.modifier
 {
     width:                      70%;

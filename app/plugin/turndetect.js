@@ -15,11 +15,13 @@ class TurnDetect{
 
         eventbus.listen(__.CARDS_DRAWN, (deck) => deck.type === DECK_TYPES.ABILITY && deck.is_active , ()=> this.progress.start());
         eventbus.listen(__.DECK_SHUFFLED, (deck) => deck.type === DECK_TYPES.ABILITY , ()=> this.progress.restart());
+        eventbus.listen(__.UNDO_LAST_MOVE, undefined, ()=> this.abort());
         eventbus.listen(__.SCENARIO_LOADED, undefined, () => this.reset());
     }
 
-    decide_progress(){
-
+    abort(){
+        this.progress.stop();
+        this.show_bar(0, false);
     }
 
     reset(){

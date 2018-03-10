@@ -32,7 +32,8 @@ const EVENTS = {
     SCROLL: 'scroll',
     SETTINGS_PAGE: 'settings_page',
     SETTINGS_PANE: 'settings_pane',
-    SHUFFLE_REQUIRED: 'shuffle_required' 
+    SHUFFLE_REQUIRED: 'shuffle_required',
+    UNDO_LAST_MOVE: 'undo_last_move'
 };
 
 export { DECK_TYPES, EVENTS };
