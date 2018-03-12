@@ -20,6 +20,9 @@ export class ModifierDeck extends Deck {
         eventbus.listen(__.MODIFIER_CARD_ADD, this, (e) => this.add(e.type));
         eventbus.listen(__.MODIFIER_CARD_REMOVE, this, (e) => this.remove(e.type));
         eventbus.listen(__.ROUND_END, () => this.shuffle_required, () => { this.reset_deck().shuffle();});
+        eventbus.listen(__.UNDO_LAST_MOVE, undefined, () => {
+            eventbus.dispatch([__.MODIFIER_DECK_CHANGED], this, {"bless": this.count(CARD_TYPES_MODIFIER.BLESS), "curse": this.count(CARD_TYPES_MODIFIER.CURSE), deck: this });
+        });
     }
 
     count(card_type){

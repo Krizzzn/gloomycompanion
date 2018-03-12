@@ -34,6 +34,18 @@ export class ModifierDeckRenderer extends DeckRenderer {
         this.uiCards = this.uiCards.filter((uc) => uc !== uiCard);
         uiCard.detach();
     }
+
+    ondrawn(cards) {
+
+        cards.forEach((card) => {
+            let uiCard = this.uiCards.find((uc) => uc.card === card);
+
+            if (!uiCard)
+                this.onadd(card);
+        }); 
+
+        return super.ondrawn(cards);
+    }
 }
 
 export default ModifierDeckRenderer; 

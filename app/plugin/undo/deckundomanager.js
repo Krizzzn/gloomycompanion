@@ -49,12 +49,17 @@ export class DeckUndoManager{
 
         let event_stack = this.states[last_deck];
 
-        if (event_stack.length < 2)
+        if (event_stack.length === 0)
             return;
 
         event_stack.pop();
-        let prev_state = event_stack[event_stack.length-1];
-        this.set_state(last_deck, prev_state);
+
+        if (event_stack.length === 0)
+            this.remove_deck(last_deck);
+        else {
+            let prev_state = event_stack[event_stack.length-1];
+            this.set_state(last_deck, prev_state);
+        }
     }
 
     set_state(deck, prev_state){
@@ -66,6 +71,17 @@ export class DeckUndoManager{
 
         prev_state.restore(found.deck);
         eventbus.dispatch(__.DECK_STATE, found.deck, {deck: found.deck, cards: prev_state.drawn});
+        eventbus.dispatch(__.SHUFFLE_REQUIRED, found.deck, {deck: found.deck});
+    }
+
+    remove_deck(deck){
+
+        let found = this.decks.find(a => a.key === deck);
+
+        if (!found)
+            return;
+
+        eventbus.dispatch(__.DECK_REMOVE, this, {deck: found.deck});
     }
 
     reset(){
@@ -78,7 +94,6 @@ export class DeckUndoManager{
 let deck_manager; 
 document_load(() => {
     deck_manager = new DeckUndoManager();
-    window.undo = deck_manager;
 });
 
 export default deck_manager;

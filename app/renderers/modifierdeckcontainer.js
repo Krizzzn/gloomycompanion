@@ -50,7 +50,7 @@ export class ModifierDeckContainer {
         eventbus.onclick(undo_button, __.UNDO_LAST_MOVE, undefined);
 
 
-        eventbus.listen(__.SHUFFLE_REQUIRED, this.deck, () => toggle_class(end_round_div, "not-required", false));
+        eventbus.listen(__.SHUFFLE_REQUIRED, this.deck, (param) => toggle_class(end_round_div, "not-required", !param.deck.shuffle_required));
         eventbus.listen(__.DECK_SHUFFLED, this.deck, () => toggle_class(end_round_div, "not-required", true));
 
         let renderer = new ModifierDeckRenderer(this.deck, this.deck_space);

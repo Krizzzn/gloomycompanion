@@ -6,6 +6,7 @@ export class DeckState{
         this.cards = [];
         this.discard = [];
         this.drawn = drawn_count || 0;
+        this.shuffle_required = deck.shuffle_required;
 
         deck.cards.forEach(card => this.cards.push(card));
         deck.discard.forEach(card => this.discard.push(card));
