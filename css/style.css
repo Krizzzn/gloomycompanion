@@ -191,6 +191,18 @@ ul.tabcontainer .inactive
     z-index:            1;
 }
 
+#undobtn
+{
+    position: absolute;
+
+    left:               1em;
+    top:                10em;
+    width:              5ch;
+    height:             5ch;
+    cursor:             pointer;
+    z-index:            1;
+}
+
 #active_decks span{
     width: 250px;
     display: inline-block;

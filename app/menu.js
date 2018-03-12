@@ -19,6 +19,7 @@ class Menu {
 
         this.buttons = {
             settings:       document.getElementById("settingsbtn"),
+            undo:           document.getElementById("undobtn"),
             cancel:         document.getElementById("cancelarea")       
         };
 
@@ -26,6 +27,7 @@ class Menu {
         eventbus.onclick(this.pages.deck.tab, __.SETTINGS_PAGE, this, this.pages.deck);
         eventbus.onclick(this.buttons.settings, __.SETTINGS_PANE, this, {show: true});
         eventbus.onclick(this.buttons.cancel, __.SETTINGS_PANE, this, {show: false});
+        eventbus.onclick(this.buttons.undo, __.UNDO_LAST_MOVE, this);
 
         eventbus.listen(__.SETTINGS_PAGE, this, (p) => this.show_tab(p));
         eventbus.listen(__.SETTINGS_PANE, this, (p) => this.show_settingspane(p));

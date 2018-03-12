@@ -30,14 +30,14 @@ class DetectUnusedDecks{
             return 1;
         });
 
-        eventbus.dispatch(__.DECKS_USAGE, undefined, {decks: this.available_decks});
-        eventbus.dispatch(__.DECKS_ORDER, undefined, {ordered_decks: this.available_decks});
+        eventbus.dispatch(__.DECKS_USAGE, this, {decks: this.available_decks});
+        eventbus.dispatch(__.DECKS_ORDER, this, {ordered_decks: this.available_decks});
     }
 
     save_deck(e){
         if (!e.deck.is_active){
             e.deck.is_active = true;
-            eventbus.dispatch(__.DECKS_USAGE, undefined, {decks: [e.deck]});
+            eventbus.dispatch(__.DECKS_USAGE, this, {decks: [e.deck]});
         }
         this.decks_drawn.push(e.deck);
     }

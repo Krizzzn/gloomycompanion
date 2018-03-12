@@ -16,17 +16,20 @@ export class Progress{
             this.starttime = timestamp || new Date().getTime();
             this.tick(timestamp);
         });
+        return this;
     }
 
     stop(){
         if (this.requestID)
             window.cancelAnimationFrame(this.requestID);
         this.requestID = undefined;
+        return this;
     }
 
     restart(){
         if (this.requestID)
             this.start();
+        return this;
     }
 
     tick(timestamp){

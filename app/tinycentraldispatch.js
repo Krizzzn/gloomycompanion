@@ -17,6 +17,9 @@ class TinyCentralDispatch {
     //  predicate_or_source:    filter events by providing a predicate or the expected source object (triggered 
     //                          if expected source object matches the given source object)
     //  callback:               called when event is registered
+    //  settings:               some additional settings for the event (object)
+    //       priority:          define the order in which events are called. 5 is the default if no priority is
+    //                          provided
     listen(events, predicate_or_source, callback, settings){
         events = [].concat(...[events]);
 
