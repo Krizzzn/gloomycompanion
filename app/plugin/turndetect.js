@@ -17,6 +17,7 @@ class TurnDetect{
         eventbus.listen(__.DECK_SHUFFLED, (deck) => deck.type === DECK_TYPES.ABILITY , ()=> this.progress.restart());
         eventbus.listen(__.UNDO_LAST_MOVE, undefined, ()=> this.abort());
         eventbus.listen(__.SCENARIO_LOADED, undefined, () => this.reset());
+        eventbus.listen(__.UNDO_LAST_ROUND, undefined, (param) => this.turn = param.turn );
     }
 
     abort(){

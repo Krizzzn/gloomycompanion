@@ -13,21 +13,26 @@ class TinyCentralDispatch {
     }
 
     // subscribe to events
-    //  event:                  name of event
+    //  events:                 array of events or single event 
     //  predicate_or_source:    filter events by providing a predicate or the expected source object (triggered 
     //                          if expected source object matches the given source object)
     //  callback:               called when event is registered
-    listen(event, predicate_or_source, callback){
-        this.subscribers[event] = this.subscribers[event] || [];
+    listen(events, predicate_or_source, callback, settings){
+        events = [].concat(...[events]);
 
-        let event_settings = { callback: callback };
+        events.forEach((event) => {
+            this.subscribers[event] = this.subscribers[event] || [];
 
-        if (typeof predicate_or_source === 'function')
-            event_settings.predicate = predicate_or_source;
-        else
-            event_settings.source = predicate_or_source;
+            let event_settings = { callback: callback };
 
-        this.subscribers[event].push(event_settings);
+            if (typeof predicate_or_source === 'function')
+                event_settings.predicate = predicate_or_source;
+            else
+                event_settings.source = predicate_or_source;
+            event_settings.priority = ((settings || {}).priority || 5);
+
+            this.subscribers[event].push(event_settings);
+        });
     }
 
     // dispatch an event
@@ -45,7 +50,8 @@ class TinyCentralDispatch {
                 return this.dispatch("default", invoked_by, parameters);
             }
 
-            this.subscribers[event].filter((subscriber) => {
+            this.subscribers[event].sort((a,b) => a.priority - b.priority)
+                                   .filter((subscriber) => {
                 if (subscriber.predicate) return subscriber.predicate(invoked_by, parameters);
                 if (!subscriber.source) return true;
                 if (invoked_by === subscriber.source) return true;

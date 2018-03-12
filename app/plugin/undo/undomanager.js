@@ -5,28 +5,41 @@ import eventbus from '../../tinycentraldispatch.js';
 import { EVENTS as __, DECK_TYPES } from '../../constants.js';
 
 import DeckState from './deckstate.js';
+import RoundState from './roundstate.js';
 
-export class DeckUndoManager{
+export class UndoManager{
 
     constructor(){
 
+        this.scenario;
         this.states = {};
         this.events = [];
         this.decks = [];
 
-        eventbus.listen(__.DECK_SHUFFLED, undefined, param => this.store_state(param.deck, new DeckState(param.deck)));        
-        eventbus.listen(__.CARDS_DRAWN, undefined, param => this.store_state(param.deck, new DeckState(param.deck, param.cards.length)));
+        eventbus.listen(__.SCENARIO_LOAD, undefined, (param) => this.reset_on_load(param.scenario.name), {priority: 1});
+        eventbus.listen(__.ROUND_NEW, undefined, param => this.store_state("round", new RoundState(param.turn)));
+        eventbus.listen(__.DECK_SHUFFLED, undefined, param => this.store_state(this.get_symbol(param.deck), new DeckState(param.deck)));       
+        eventbus.listen(__.CARDS_DRAWN, undefined, param => this.store_state(this.get_symbol(param.deck), new DeckState(param.deck, param.cards.length)));
         eventbus.listen(__.UNDO_LAST_MOVE, undefined, () => this.undo());
+        
     }
 
-    store_state(deck, state){
+    reset_on_load(scenario){
 
-        let k = this.get_symbol(deck);
+        if (this.scenario !== undefined && this.scenario !== scenario){
+            this.states = {};
+            this.events = [];
+            this.decks = [];
+        }
+        this.scenario = scenario;
+    }
 
-        if (!this.states[k])
-            this.states[k] = [];
-        this.states[k].push(state);
-        this.events.push(k);
+    store_state(key, state){
+
+        if (!this.states[key])
+            this.states[key] = [];
+        this.states[key].push(state);
+        this.events.push(key);
     }
 
     get_symbol(deck){
@@ -44,7 +57,7 @@ export class DeckUndoManager{
 
         let last_deck = this.events.pop();
 
-        if (!last_deck)
+        if (!last_deck || this.events.length === 0)
             return;
 
         let event_stack = this.states[last_deck];
@@ -54,7 +67,7 @@ export class DeckUndoManager{
 
         event_stack.pop();
 
-        if (event_stack.length === 0)
+        if (event_stack.length === 0 && last_deck !== "round")
             this.remove_deck(last_deck);
         else {
             let prev_state = event_stack[event_stack.length-1];
@@ -63,6 +76,16 @@ export class DeckUndoManager{
     }
 
     set_state(deck, prev_state){
+
+        if (prev_state instanceof DeckState)
+            return this.set_deck_state(deck, prev_state);
+        else if (prev_state instanceof RoundState){
+            eventbus.dispatch(__.UNDO_LAST_ROUND, this, {turn: prev_state.round});
+            this.undo();
+        }
+    }
+
+    set_deck_state(deck, prev_state){
 
         let found = this.decks.find(a => a.key === deck);
 
@@ -93,7 +116,9 @@ export class DeckUndoManager{
 
 let deck_manager; 
 document_load(() => {
-    deck_manager = new DeckUndoManager();
+    deck_manager = new UndoManager();
+
+    window.u = deck_manager;
 });
 
 export default deck_manager;

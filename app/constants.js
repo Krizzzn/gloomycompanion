@@ -33,7 +33,8 @@ const EVENTS = {
     SETTINGS_PAGE: 'settings_page',
     SETTINGS_PANE: 'settings_pane',
     SHUFFLE_REQUIRED: 'shuffle_required',
-    UNDO_LAST_MOVE: 'undo_last_move'
+    UNDO_LAST_MOVE: 'undo_last_move',
+    UNDO_LAST_ROUND: 'undo_last_round'
 };
 
 export { DECK_TYPES, EVENTS };

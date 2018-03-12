@@ -16,6 +16,7 @@ export class AbilityDeckRenderer extends DeckRenderer {
         this.clean_required = false;
         eventbus.listen(__.DECKS_USAGE, undefined, () => this.onunused());
         eventbus.listen(__.ROUND_NEW, undefined, (turn) => this.clean_up(turn));
+        eventbus.listen(__.DECK_STATE, undefined, () => this.onunused());
     }
 
     onunused(){

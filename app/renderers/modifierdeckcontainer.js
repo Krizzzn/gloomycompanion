@@ -79,7 +79,7 @@ export class ModifierDeckContainer {
             widget_container.appendChild(this.create_button(card_type, "increment", "+", decrement_event, text_element));
 
         if (card_type === "round")
-            eventbus.listen(__.ROUND_NEW, undefined, (e) => { text_element.textContent = e.turn || 0; });
+            eventbus.listen([__.ROUND_NEW, __.UNDO_LAST_ROUND], undefined, (e) => { text_element.textContent = e.turn || 0; });
         else
             eventbus.listen(__.MODIFIER_DECK_CHANGED, this.deck, (e) => { if (e[card_type] !== undefined) text_element.textContent = e[card_type]; });
 
