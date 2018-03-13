@@ -23,7 +23,7 @@ class Scroller{
 
         //with animation
         const from = this.scroll_container.scrollY; //scrollTop
-        const by = target - this.scroll_container.scrollY; //scrollTop
+        var by = target - this.scroll_container.scrollY; //scrollTop
 
         if (from < target) {
             if (target > this.scroll_container.scrollHeight - this.scroll_container.clientHeight) {

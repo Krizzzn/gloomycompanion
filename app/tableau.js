@@ -120,3 +120,5 @@ class Tableau {
 }
 
 document_load(new Tableau(document.getElementById("tableau")).activate_verbose());
+
+export default {};
