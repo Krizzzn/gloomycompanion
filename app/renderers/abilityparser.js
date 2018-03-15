@@ -254,10 +254,9 @@ class AbilityParser {
     expand_string(s, attack, move, range)
     {
         var re = new RegExp("%(attack|move|range)% (\\+|-)(\\d*)", "g");
-        
-        while (re.exec(s))
+        var found;
+        while (found = re.exec(s)) // jshint ignore:line
         {
-            var found = re.exec(s);
             if (found[1] === "attack")
             {
                 s = s.replace(found[0], this.expand_stat(found[0], "attack", attack));

@@ -120,11 +120,11 @@ module.exports = function(grunt) {
             cache: ['gloomy.min.js', 'css/gloomy.min.css'],
             network: ['http://*', 'https://*'],
             preferOnline: true,
-            headcomment: "Gloomy Companion",
+            headcomment: " Gloomy Companion",
             verbose: true,
             timestamp: false,
             hash: true,
-            master: undefined,
+            master: ['gloomy.min.js', 'css/gloomy.min.css']
         },
         src: [
           'fonts/*',
