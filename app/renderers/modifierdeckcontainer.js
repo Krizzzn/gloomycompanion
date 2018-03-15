@@ -1,10 +1,10 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
-import ModifierDeckRenderer from '/app/renderers/modifierdeck.js';
-import { toggle_class } from '/app/utils.js'; 
+import ModifierDeckRenderer from '../renderers/modifierdeck.js';
+import { toggle_class } from '../utils.js'; 
 
 export class ModifierDeckContainer {
     constructor(deck, container){

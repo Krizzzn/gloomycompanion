@@ -1,11 +1,11 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
-import { CAMPAIGNS } from '/app/data/scenarios.js';
-import ScenarioSelector from '/app/renderers/scenarioselector.js';
-import LevelSelector from '/app/renderers/levelselector.js';
+import { CAMPAIGNS } from '../data/scenarios.js';
+import ScenarioSelector from '../renderers/scenarioselector.js';
+import LevelSelector from '../renderers/levelselector.js';
 
 export class Scenarios {
 	constructor(){

@@ -1,9 +1,9 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
-import { toggle_class, setup_textbox } from '/app/utils.js';
+import { toggle_class, setup_textbox } from '../utils.js';
 
 export class LevelSelector {
 
@@ -86,7 +86,7 @@ export class LevelSelector {
             image.src = "images/player.svg";
             image.dataset.characters = i;
 
-            image.addEventListener("click", () => { this.characters = image.dataset.characters; this.character_selector(); });
+            image.addEventListener("click", () => { this.characters = image.dataset.characters; this.character_selector(); }); // jshint ignore:line
             this.character_selection.push(image);
             levelbox.appendChild(image);
         }

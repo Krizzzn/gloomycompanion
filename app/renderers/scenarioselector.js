@@ -1,9 +1,9 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
-import { setup_textbox } from '/app/utils.js';
+import { setup_textbox } from '../utils.js';
 
 export class ScenarioSelector {
 

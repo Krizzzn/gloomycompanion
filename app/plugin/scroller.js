@@ -1,8 +1,8 @@
 'use strict';
 
-import { document_load } from '/app/utils.js';
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+import { document_load } from '../utils.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '../constants.js';
 
 class Scroller{
 
@@ -17,7 +17,7 @@ class Scroller{
         var target;
 
         if (isNaN(scrollTo))
-            target = document.getElementById(scrollToId).offsetTop;
+            target = document.getElementById(scrollTo).offsetTop;
         else
             target = parseFloat(scrollTo);
 
@@ -46,7 +46,7 @@ class Scroller{
         (function scroll() {
             
             const value = that.easing(currentIteration, from, by, animIterations);
-            console.log(value)
+
             that.scroll_container.scroll(0, value);
             currentIteration++;
             if (currentIteration < animIterations) {

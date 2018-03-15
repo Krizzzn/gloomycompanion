@@ -1,9 +1,9 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
-import SCENARIO_LEVELS from '/app/data/scenario_levels.js';
+import SCENARIO_LEVELS from '../data/scenario_levels.js';
 
 export class Rewards {
     constructor(){

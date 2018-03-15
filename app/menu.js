@@ -1,12 +1,12 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
-import { document_load, toggle_class } from '/app/utils.js';
+import eventbus from './tinycentraldispatch.js';
+import { EVENTS as __ } from './constants.js';
+import { document_load, toggle_class } from './utils.js';
 
-import Scenarios from '/app/menu/scenarios.js';
-import Decklist from '/app/menu/decklist.js';
-import Rewards from '/app/menu/rewards.js';
+import Scenarios from './menu/scenarios.js';
+import Decklist from './menu/decklist.js';
+import Rewards from './menu/rewards.js';
 
 class Menu {
     constructor(){

@@ -1,12 +1,12 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '../constants.js';
 
-import { Deck } from '/app/decks/deck.js';
-import { Card } from '/app/decks/card.js';
-import { DECKS, DECK_DEFINITONS } from '/app/data/cards.js'; 
-import { MONSTERS } from '/app/data/monsterstats.js';
+import { Deck } from '../decks/deck.js';
+import { Card } from '../decks/card.js';
+import { DECKS, DECK_DEFINITONS } from '../data/cards.js'; 
+import { MONSTERS } from '../data/monsterstats.js';
 
 export class AbilityDeck extends Deck{
     constructor(deckType, level) {

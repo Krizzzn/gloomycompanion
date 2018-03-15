@@ -1,12 +1,12 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
-import AbilityParser from '/app/renderers/abilityparser.js';
-import { UIAbilityCard } from '/app/renderers/abilitycard.js';
-import { DeckRenderer } from '/app/renderers/deck.js';
-import { toggle_class } from '/app/utils.js';
+import AbilityParser from '../renderers/abilityparser.js';
+import { UIAbilityCard } from '../renderers/abilitycard.js';
+import { DeckRenderer } from '../renderers/deck.js';
+import { toggle_class } from '../utils.js';
 
 export class AbilityDeckRenderer extends DeckRenderer {
     constructor(deck, container){

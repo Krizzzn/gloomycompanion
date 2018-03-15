@@ -1,15 +1,15 @@
 'use strict';
 
-import { document_load } from '/app/utils.js';
+import { document_load } from './utils.js';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from './tinycentraldispatch.js';
+import { EVENTS as __ } from './constants.js';
 
-import { ModifierDeck } from '/app/decks/modifierdeck.js';
-import { AbilityDeck } from '/app/decks/abilitydeck.js';
-import { ModifierDeckContainer } from '/app/renderers/modifierdeckcontainer.js';
-import { AbilityDeckRenderer } from '/app/renderers/abilitydeck.js';
-import { DeckOrderer } from '/app/renderers/deckorderer.js';
+import { ModifierDeck } from './decks/modifierdeck.js';
+import { AbilityDeck } from './decks/abilitydeck.js';
+import { ModifierDeckContainer } from './renderers/modifierdeckcontainer.js';
+import { AbilityDeckRenderer } from './renderers/abilitydeck.js';
+import { DeckOrderer } from './renderers/deckorderer.js';
 
 class Tableau {
 	constructor(container){
@@ -92,6 +92,8 @@ class Tableau {
 
 		this.modifier_deck = undefined;
 		this.ability_decks.forEach((deck) => this.remove_deck(deck.deck));
+
+		if (!this.container) return;
 
 		while (this.container.firstChild) {
    			this.container.removeChild(this.container.firstChild);

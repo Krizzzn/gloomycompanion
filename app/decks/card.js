@@ -1,6 +1,6 @@
 'use strict';
 
-import toggle_class from '/app/utils.js';
+import toggle_class from '../utils.js';
 
 export class Card {
     constructor(type, shuffle, content){

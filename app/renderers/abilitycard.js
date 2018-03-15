@@ -1,7 +1,7 @@
 'use strict';
 
-import { UICard } from '/app/renderers/card.js';
-import AbilityParser from '/app/renderers/abilityparser.js';
+import { UICard } from '../renderers/card.js';
+import AbilityParser from '../renderers/abilityparser.js';
 
 export class UIAbilityCard extends UICard {
 

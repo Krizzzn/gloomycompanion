@@ -1,6 +1,6 @@
 'use strict';
 
-import MACROS from '/app/data/macros.js';
+import MACROS from '../data/macros.js';
 
 class AbilityParser {
 
@@ -26,7 +26,7 @@ class AbilityParser {
                 return this.special_to_lines(line, this.stats.special1, this.stats.special2);
             }, this);
 
-            lines = [].concat(...specials)
+            lines = [].concat(...specials);
 
             if (this.stats.immunities)
                 this.immunities_to_lines(this.stats.immunities).forEach((a) => lines.push(a));
@@ -39,6 +39,7 @@ class AbilityParser {
         }
 
         for (var i = 0; i < lines.length; i++) {
+            var list_item;
             var line = lines[i];
 
             var new_depth = 0;
@@ -60,7 +61,7 @@ class AbilityParser {
                     current_parent = list;
 
                     // Create <li>
-                    var list_item = document.createElement("li");
+                    list_item = document.createElement("li");
                     current_parent.appendChild(list_item);
                     current_parent = list_item;
 
@@ -82,7 +83,7 @@ class AbilityParser {
                 current_parent = current_parent.parentElement;
 
                 // create sibling <li>
-                var list_item = document.createElement("li");
+                list_item = document.createElement("li");
                 current_parent.appendChild(list_item);
                 current_parent = list_item;
             }
@@ -107,6 +108,8 @@ class AbilityParser {
 
     expand_stat(s, stat, value)
     {
+        var value_normal;
+        var value_elite;
         var re = new RegExp("%" + stat + "% (\\+|-)(\\d*)", "g");
         var line_parsed = re.exec(s);
         
@@ -126,10 +129,10 @@ class AbilityParser {
         if (line_parsed) {
             if (line_parsed[1] === "+")
             {
-                var value_normal = normal_attack + parseInt(line_parsed[2]);
+                value_normal = normal_attack + parseInt(line_parsed[2]);
                 if (has_elite_value)
                 {
-                    var value_elite = value[1] + parseInt(line_parsed[2]);
+                    value_elite = value[1] + parseInt(line_parsed[2]);
                     return ("%" + stat + "% " + value_normal + " / <span class='elite-color'>" + value_elite + "</span>");
                 } else
                 {
@@ -137,10 +140,10 @@ class AbilityParser {
                 }
             } else if (line_parsed[1] === "-")
             {
-                var value_normal = normal_attack - parseInt(line_parsed[2]);
+                value_normal = normal_attack - parseInt(line_parsed[2]);
                 if (has_elite_value)
                 {
-                    var value_elite = value[1] - parseInt(line_parsed[2]);
+                    value_elite = value[1] - parseInt(line_parsed[2]);
                     return ("%" + stat + "% " + value_normal + " / <span class='elite-color'>" + value_elite + "</span>");
                 } else
                 {
@@ -154,6 +157,8 @@ class AbilityParser {
 
     attributes_to_lines(attributes)
     {
+        var i;
+
         if (!attributes || (attributes[0].length == 0 && attributes[1].length == 0))
         {
             return [];
@@ -165,7 +170,7 @@ class AbilityParser {
             // Write common attributes in white
             var normal_attributes_lines = [];
             var line = 0;
-            for (var i=0; i<attributes[0].length; i++)
+            for (i=0; i<attributes[0].length; i++)
             {
                 normal_attributes_lines[line] = normal_attributes_lines[line] ? normal_attributes_lines[line] + attributes[0][i] + ", " : attributes[0][i] + ", ";
                 if ((i+1) % 3 == 0 )
@@ -183,7 +188,7 @@ class AbilityParser {
             //     return ((attributes[0].indexOf(elite_attribute) == -1) ? elite_attribute: "")
             // });
             line = 0;
-            for (var i=0; i<attributes[1].length; i++)
+            for (i=0; i<attributes[1].length; i++)
             {
                 elite_attributes_lines[line] = elite_attributes_lines[line] ? elite_attributes_lines[line] + attributes[1][i] + ", " : attributes[1][i] + ", ";
                 if ((i+1) % 3 == 0 )
@@ -214,7 +219,7 @@ class AbilityParser {
                     line++;
                 }
             }
-            return ["* Immunities"].concat(immunities_lines.map(function(line) { return "** <span class='small'>" + line.replace(/(,\s$)/g, "") + "</span>"}));
+            return ["* Immunities"].concat(immunities_lines.map(function(line) { return "** <span class='small'>" + line.replace(/(,\s$)/g, "") + "</span>"; }));
         }
     }
 
@@ -249,9 +254,10 @@ class AbilityParser {
     expand_string(s, attack, move, range)
     {
         var re = new RegExp("%(attack|move|range)% (\\+|-)(\\d*)", "g");
-        var found;
-        while (found = re.exec(s))
+        
+        while (re.exec(s))
         {
+            var found = re.exec(s);
             if (found[1] === "attack")
             {
                 s = s.replace(found[0], this.expand_stat(found[0], "attack", attack));

@@ -1,8 +1,8 @@
 'use strict';
 
-import { document_load } from '/app/utils.js';
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+import { document_load } from '../utils.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '../constants.js';
 
 class ScrollOnOrdering{
 

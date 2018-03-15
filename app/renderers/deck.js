@@ -1,7 +1,7 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '../constants.js';
 
 export class DeckRenderer{
     constructor(deck, container){

@@ -1,10 +1,10 @@
 'use strict';
 
-import { UICard } from '/app/renderers/card.js';
-import { DeckRenderer } from '/app/renderers/deck.js';
+import { UICard } from '../renderers/card.js';
+import { DeckRenderer } from '../renderers/deck.js';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __ } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __ } from '../constants.js';
 
 export class ModifierDeckRenderer extends DeckRenderer {
     constructor(deck, container){

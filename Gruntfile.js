@@ -6,56 +6,160 @@ module.exports = function(grunt) {
   // Configure Grunt 
   grunt.initConfig({
  
-    // grunt-contrib-connect will serve the files of the project
-    // on specified port and hostname
+    watch: {
+      all: {
+        files: ['app/**/*.js', '*.html', 'css/**.css'],
+        tasks: ['jshint'],
+        options: {
+          livereload: true
+        }
+      },
+    },
+
     connect: {
       all: {
         options:{
           port: 9000,
           hostname: "0.0.0.0",
           // No need for keepalive anymore as watch will keep Grunt running
-          //keepalive: true,
- 
-          // Livereload needs connect to insert a cJavascript snippet
-          // in the pages it serves. This requires using a custom connect middleware
-          middleware: function(connect, options) {
- 
-            return [
- 
-              // Load the middleware provided by the livereload plugin
-              // that will take care of inserting the snippet
-              require('grunt-contrib-livereload/lib/utils').livereloadSnippet,
- 
-              // Serve the project folder
-              connect.static(options.base)
-            ];
-          }
+          keepalive: false,
+          livereload: true,
+          open: true
         }
       }
     },
 
-    // grunt-regarde monitors the files and triggers livereload
-    // Surprisingly, livereload complains when you try to use grunt-contrib-watch instead of grunt-regarde 
-    regarde: {
-      all: {
-        // This'll just watch the index.html file, you could add **/*.js or **/*.css
-        // to watch Javascript and CSS files too.
-        files:['index.html', '**/*.js', '**/*.css'],
-        // This configures the task that will run when the file change
-        tasks: ['livereload']
+    jshint: {
+      all: ['app/**/*.js'],
+      options: {
+        esversion: 6,
+        browser: true,
+        strict: false,
+        multistr: true,
+
+        globals: {
+          console: true
+        },
+
+        '-W097': true,
+        ignores: ['app/data/*.js']
       }
+    },
+
+    clean: ['dist/*'],
+
+    browserify: {
+      dist: {
+        files: {
+          'dist/gloomy.min.js': ['app/main.js']
+        },
+        options: {
+
+          browserifyOptions: {
+            minify: true,
+            paths: [
+              "./app/"
+            ]},
+          transform: [["babelify", { "presets": ["env"] }],
+                      ["uglifyify"]],
+        }
+      }
+    },
+
+    cssmin: {
+      options: {},
+      target: {
+        files: {
+          'dist/css/gloomy.min.css': ['css/**.css']
+        }
+      },
+    },
+
+    copy: {
+      fonts: {
+        expand: true,
+        src: 'fonts/*',
+        dest: 'dist/',
+      },
+      images: {
+        expand: true,
+        src: 'images/*',
+        dest: 'dist/',
+      },
+      other: {
+        expand: true,
+        src: ['app.webmanifest'],
+        dest: 'dist/',
+      },
+    },
+
+    processhtml: {
+      options: {
+        data: {
+
+        }
+      },
+      dist: {
+        files: {
+          'dist/index.html': ['index.html']
+        }
+      }
+    },
+
+    manifest: {
+      generate: {
+        options: {
+            basePath: 'dist/',
+            cache: ['gloomy.min.js', 'css/gloomy.min.css'],
+            network: ['http://*', 'https://*'],
+            preferOnline: true,
+            headcomment: "Gloomy Companion",
+            verbose: true,
+            timestamp: false,
+            hash: true,
+            master: undefined,
+        },
+        src: [
+          'fonts/*',
+          'images/*'
+        ],
+        dest: 'dist/manifest.appcache'
+      }
+    },
+
+    'gh-pages': {
+      options: {
+        base: 'dist',
+        message: 'Auto-generated commit'
+      },
+      src: ['**/*']
     }
+
+
   });
  
   // Creates the `server` task
   grunt.registerTask('server',[
     
-    // Starts the livereload server to which the browser will connect to
-    // get notified of when it needs to reload
-    'livereload-start',
     'connect',
 
     // Starts monitoring the folders and keep Grunt alive
-    'regarde'
+    'watch'
+  ]);
+
+  grunt.registerTask('build',[
+    'clean',
+    'browserify',
+    'cssmin',
+    'copy:fonts',
+    'copy:images',
+    'copy:other',
+    'processhtml',
+    'manifest'
+  ]);
+
+  grunt.registerTask('publish',[
+    'build',
+    'gh-pages'
   ]);
 };

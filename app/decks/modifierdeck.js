@@ -1,11 +1,11 @@
 'use strict';
 
-import eventbus from '/app/tinycentraldispatch.js';
-import { EVENTS as __, DECK_TYPES } from '/app/constants.js';
+import eventbus from '../tinycentraldispatch.js';
+import { EVENTS as __, DECK_TYPES } from '../constants.js';
 
-import { Deck } from '/app/decks/deck.js';
-import { Card } from '/app/decks/card.js';
-import { MODIFIER_DECK, MODIFIER_CARDS, CARD_TYPES_MODIFIER } from '/app/data/modifiercards.js';
+import { Deck } from '../decks/deck.js';
+import { Card } from '../decks/card.js';
+import { MODIFIER_DECK, MODIFIER_CARDS, CARD_TYPES_MODIFIER } from '../data/modifiercards.js';
 
 export class ModifierDeck extends Deck {
     constructor() {
