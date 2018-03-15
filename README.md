@@ -2,22 +2,27 @@
 
 This is a web-app for managing the monster ability decks in the board game [Gloomhaven](https://boardgamegeek.com/boardgame/174430/gloomhaven)
 
-You can run it from the web directly on <https://krizzzn.github.io/gloomycompanion/>.
+You can run it from the at <https://krizzzn.github.io/gloomycompanion/>.
 
-You can also download it and run it locally without internet connection. Click __Clone or download__ above, then __Download ZIP__. Unpack the ZIP and start the app by opening `index.html`.
+# Development
 
-# Deployment and the cache
-
-Run `gen-manifest.sh` to create the manifest file. Make sure that the generated file `app.manifest` does not exist during development. Browsers will prefer cached files over latest ones from your disk.   
-In "Production" this will enable an offline mode. So the website works without internet connection.
-
-# Development with autoreload
+Use a modern browser to develop (i.e. Chrome), because the Gloomy Companion uses some es6 features. 
+Either serve the website with a web server or use the Grunt script included. 
 
 __Step 0__: `npm install -g grunt-cli`    
 __Step 1__: `npm install`    
-__Step 2__: `grunt server`    
-__Step 3__: open http://localhost:9000    
-__Step 4__: \*hackety hack\*  	
+__Step 2__: `grunt server`       
+__Step 3__: \*hackety hack\*
+
+Use `grunt server:nohint` in case js hint gets to annoying.
+
+# Build
+
+Run `grunt build` to run the build process. The output can be found in the `dist` folder.
+
+# Publish to github
+
+Run `grunt publish` to build and publish the Gloomy Companion to the gh-pages branch of your repository. Make sure to activate gh-pages on Github.
 
 # Adding Monsters
 

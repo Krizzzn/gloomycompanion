@@ -14,6 +14,13 @@ module.exports = function(grunt) {
           livereload: true
         }
       },
+      nohint: {
+        files: ['app/**/*.js', '*.html', 'css/**.css'],
+        tasks: [],
+        options: {
+          livereload: true
+        }
+      },
     },
 
     connect: {
@@ -140,11 +147,14 @@ module.exports = function(grunt) {
  
   // Creates the `server` task
   grunt.registerTask('server',[
-    
     'connect',
-
-    // Starts monitoring the folders and keep Grunt alive
     'watch'
+  ]);
+
+  // Creates the `server` task
+  grunt.registerTask('server:nohint',[
+    'connect',
+    'watch:nohint'
   ]);
 
   grunt.registerTask('build',[
