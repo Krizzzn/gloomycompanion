@@ -1,4 +1,4 @@
-'use static'
+'use static';
 
 import { document_load } from '../../utils.js';
 import eventbus from '../../tinycentraldispatch.js';
@@ -11,7 +11,7 @@ export class UndoManager{
 
     constructor(){
 
-        this.scenario;
+        this.scenario = undefined;
         this.states = {};
         this.events = [];
         this.decks = [];
